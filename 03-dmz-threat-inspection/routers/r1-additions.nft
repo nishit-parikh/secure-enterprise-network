@@ -1,0 +1,17 @@
+# Additions to the edge router's /etc/nftables.conf so Internet web traffic can only
+# reach the DMZ through the IPS sensor. $WAN, $DMZ_IF, $TR_IF and $WEB are defined
+# earlier in the router's file.
+
+define IDS = 10.10.30.21     # must sit with the other defines, before it is used
+
+# --- table inet filter / chain forward ---
+# Replaces the old rule that let the WAN hit the web servers directly
+iifname $WAN oifname $DMZ_IF ip daddr $IDS tcp dport { 80, 8081 } ct state new accept   # WAN -> web only via IPS -> WAF
+iifname $TR_IF oifname $DMZ_IF ip daddr $WEB tcp dport { 80, 443 } accept                # internal zones keep direct web access
+
+# --- table ip nat ---
+chain prerouting {
+  type nat hook prerouting priority -100; policy accept;
+  iifname $WAN tcp dport 80   dnat to 10.10.30.21:80
+  iifname $WAN tcp dport 8081 dnat to 10.10.30.21:8081
+}

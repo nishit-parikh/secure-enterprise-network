@@ -1,0 +1,18 @@
+# /etc/netplan/01-r1.yaml (chmod 600)
+# Switch ports carry no IP; gateway IPs live on the OVS SVIs (see ovs-l3.sh).
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:            # WAN, outside OVS
+      dhcp4: true
+    ens37:            # transit access port (VLAN 99)
+      dhcp4: false
+      dhcp6: false
+      link-local: []
+      optional: true
+    ens38:            # DMZ access port (VLAN 30)
+      dhcp4: false
+      dhcp6: false
+      link-local: []
+      optional: true

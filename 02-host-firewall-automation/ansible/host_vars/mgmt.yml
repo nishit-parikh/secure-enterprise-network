@@ -1,0 +1,8 @@
+---
+# mgmt (10.10.10.14) - Ansible control node (Infra, VLAN 20)
+# Offers no services; may only reach the hosts it manages.
+extra_outbound:
+  - { proto: tcp, dport: "22",   to: "{{ infra_net }}", comment: "SSH to Infra hosts (Ansible)" }
+  - { proto: tcp, dport: "22",   to: "{{ dmz_net }}",   comment: "SSH to DMZ hosts (Ansible)" }
+  - { proto: tcp, dport: "5985", to: "{{ ad_host }}",   comment: "WinRM to the domain controller" }
+  - { proto: tcp, dport: "5985", to: "{{ admin_ip }}",  comment: "WinRM to the admin workstation" }

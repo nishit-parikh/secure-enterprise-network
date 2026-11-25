@@ -1,0 +1,6 @@
+---
+# file (10.10.10.12) - Samba file server (Infra, VLAN 20)
+inbound_rules:
+  - { proto: tcp, dport: "{ 139, 445 }", from: "{{ users_net }}", comment: "SMB from Users" }
+  - { proto: udp, dport: "{ 137, 138 }", from: "{{ users_net }}", comment: "NetBIOS from Users" }
+# allow_internet is inherited from group_vars/all.yml; set it to false here to cut Internet access.

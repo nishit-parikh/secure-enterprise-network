@@ -1,0 +1,12 @@
+# /etc/systemd/system/suricata-ips.service
+# Runs Suricata inline on NFQUEUE 0 instead of the packaged passive (AF_PACKET) service.
+[Unit]
+Description=Suricata IPS (NFQUEUE)
+After=network.target nftables.service
+
+[Service]
+ExecStart=/usr/bin/suricata -q 0 -c /etc/suricata/suricata.yaml --pidfile /run/suricata.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

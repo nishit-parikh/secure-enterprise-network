@@ -1,0 +1,8 @@
+// /etc/bind/named.conf.local - dns-public (PUBLIC DNS)
+// Same domain as the private server, but this copy holds ONLY public names.
+
+zone "corp.local" {
+    type master;
+    file "/etc/bind/db.corp.local";
+    allow-query { any; };
+};

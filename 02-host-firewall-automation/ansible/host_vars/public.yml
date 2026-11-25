@@ -1,0 +1,10 @@
+---
+# public (10.10.30.10) - corporate website (DMZ, VLAN 30)
+
+# Policy decision: internal users do not browse the corporate site directly.
+# The whole Users subnet is used because employee addresses are dynamic (DHCP).
+drop_rules:
+  - { proto: tcp, dport: "{ 80, 443 }", from: "{{ users_net }}", comment: "Corporate site blocked for Users" }
+
+inbound_rules:
+  - { proto: tcp, dport: "{ 80, 443 }", from: "any", rate: "25/second", comment: "Public website from anyone (rate-limited)" }

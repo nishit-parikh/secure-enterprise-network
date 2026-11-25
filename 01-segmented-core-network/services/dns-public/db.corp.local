@@ -1,0 +1,14 @@
+; /etc/bind/db.corp.local on dns-public - PUBLIC view
+; No internal hosts exist in this file, so nothing internal can leak.
+$TTL 3600
+@   IN SOA dns-public.corp.local. admin.corp.local. (
+        2026100702  ; serial
+        3600        ; refresh
+        900         ; retry
+        604800      ; expire
+        300 )       ; negative cache TTL
+@           IN NS    dns-public.corp.local.
+dns-public  IN A     10.10.30.12
+public      IN A     10.10.30.10
+shop        IN A     10.10.30.11
+www         IN CNAME public

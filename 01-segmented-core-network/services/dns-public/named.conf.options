@@ -1,0 +1,22 @@
+// /etc/bind/named.conf.options - dns-public (10.10.30.12) - PUBLIC DNS (BIND9)
+//
+// Anyone may query the public names. Recursion is limited to the private DNS
+// and the DMZ, so this server cannot be abused as an open resolver.
+
+options {
+    directory "/var/cache/bind";
+
+    listen-on { 10.10.30.12; 127.0.0.1; };
+    listen-on-v6 { none; };
+
+    allow-query { any; };                                         // public: any endpoint
+    recursion yes;
+    allow-recursion { 10.10.10.11; 10.10.30.0/24; 127.0.0.1; };   // private DNS + DMZ only
+    allow-transfer { none; };
+
+    forwarders { 1.1.1.1; 8.8.8.8; };
+    forward only;
+
+    dnssec-validation auto;
+    version "not disclosed";
+};

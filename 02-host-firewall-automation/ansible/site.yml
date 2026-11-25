@@ -1,0 +1,43 @@
+---
+# Push a default-deny nftables firewall to every Linux endpoint.
+#
+#   Preview (no changes):  ansible-playbook site.yml --check --diff
+#   Apply everywhere:      ansible-playbook site.yml
+#   One zone / one host:   ansible-playbook site.yml --limit dmz
+#                          ansible-playbook site.yml --limit file
+#
+# Safety: the rendered ruleset is syntax-checked with "nft -c" before it is
+# written, so a broken ruleset is never loaded and SSH access is never lost.
+
+- name: Configure host-based nftables firewalls
+  hosts: linux
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure nftables is installed
+      ansible.builtin.package:
+        name: nftables
+        state: present
+
+    - name: Render the firewall ruleset from the template
+      ansible.builtin.template:
+        src: templates/nftables.conf.j2
+        dest: /etc/nftables.conf
+        owner: root
+        group: root
+        mode: "0644"
+        validate: "nft -c -f %s"
+      notify: Reload nftables
+
+    - name: Enable and start nftables
+      ansible.builtin.systemd:
+        name: nftables
+        enabled: true
+        state: started
+
+  handlers:
+    - name: Reload nftables
+      ansible.builtin.systemd:
+        name: nftables
+        state: reloaded

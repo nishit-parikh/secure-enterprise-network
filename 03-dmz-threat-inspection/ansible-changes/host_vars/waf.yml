@@ -1,0 +1,11 @@
+---
+# waf (10.10.30.20) - Nginx + ModSecurity reverse proxy (DMZ, VLAN 30)
+# Internet traffic only reaches the WAF after the inline IPS (10.10.30.21) has inspected it.
+inbound_rules:
+  - { proto: tcp, dport: "{ 80, 8081 }", from: "10.10.30.21",   comment: "HTTP from the inline IPS only" }
+  # Added in stage 04, when public/shop moved to HTTPS terminated at the WAF:
+  - { proto: tcp, dport: "{ 80, 443 }",  from: "{{ users_net }}", comment: "HTTPS (and redirect) from Users" }
+# The WAF may only talk to its backends.
+extra_outbound:
+  - { proto: tcp, dport: "{ 8080, 3000 }", to: "10.10.30.22", comment: "Proxy to application containers" }
+  - { proto: tcp, dport: "80", to: "{ 10.10.30.10, 10.10.30.11 }", comment: "Proxy to web backends" }

@@ -1,0 +1,29 @@
+// /etc/bind/named.conf.options - dns-dhcp (10.10.10.11) - PRIVATE DNS (BIND9)
+//
+// Only trusted internal ranges may query or recurse.
+// Names outside our zones are forwarded to the public DNS in the DMZ.
+// Check before restarting:  sudo named-checkconf
+
+acl "trusted" {
+    172.16.0.0/24;      // Users
+    10.10.10.0/24;      // Infrastructure
+    192.168.8.192/30;   // router transit
+    127.0.0.1;
+};
+
+options {
+    directory "/var/cache/bind";
+
+    listen-on { 10.10.10.11; 127.0.0.1; };
+    listen-on-v6 { none; };
+
+    allow-query     { trusted; };
+    allow-recursion { trusted; };
+    allow-transfer  { none; };          // no zone transfers to anyone
+
+    forwarders { 10.10.30.12; };        // dns-public (DMZ)
+    forward only;
+
+    dnssec-validation no;               // dns-public validates upstream
+    version "not disclosed";            // hide the BIND version
+};

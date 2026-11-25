@@ -1,0 +1,6 @@
+# Addition to r2's /etc/nftables.conf (stage 01 ruleset), table inet filter / chain forward.
+# The single cross-zone opening this stage needs: the Ansible node may manage the
+# admin workstation over WinRM. All other Infra -> Users WinRM stays denied.
+# Place it ABOVE the "R2-INFRA-USERS-DROP" rule.
+
+ip saddr 10.10.10.14 ip daddr 172.16.0.2 tcp dport 5985 ct state new accept   # mgmt -> admin WinRM (Ansible)

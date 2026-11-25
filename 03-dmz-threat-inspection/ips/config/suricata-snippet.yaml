@@ -1,0 +1,14 @@
+# Changes made to /etc/suricata/suricata.yaml (Suricata 7.0.x, Ubuntu 24.04).
+# Only the edited keys are shown; everything else stays at the package default.
+
+# Load the ET Open ruleset (pulled by suricata-update) plus the custom rules.
+rule-files:
+  - suricata.rules
+  - local.rules
+
+# Inline mode through NFQUEUE.
+# fail-open: if Suricata falls behind or stops, traffic keeps flowing instead of
+# taking the public websites offline. Trade-off documented in the README.
+nfq:
+  mode: accept
+  fail-open: yes

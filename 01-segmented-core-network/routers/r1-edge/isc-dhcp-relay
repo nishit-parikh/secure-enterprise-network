@@ -1,0 +1,5 @@
+# /etc/default/isc-dhcp-relay on r1
+# Relays DMZ DHCP to the central server; vlan99 is the path back toward it.
+SERVERS="10.10.10.11"
+INTERFACES="vlan30 vlan99"
+OPTIONS=""

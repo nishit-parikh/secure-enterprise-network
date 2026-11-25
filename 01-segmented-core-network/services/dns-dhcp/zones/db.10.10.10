@@ -1,0 +1,10 @@
+; /etc/bind/zones/db.10.10.10 - Infrastructure reverse zone
+$TTL 86400
+@   IN SOA dns-dhcp.corp.local. admin.corp.local. ( 2026100501 3600 900 604800 86400 )
+    IN NS  dns-dhcp.corp.local.
+1   IN PTR r2.corp.local.
+10  IN PTR ad.corp.local.
+10  IN PTR corp.local.
+11  IN PTR dns-dhcp.corp.local.
+12  IN PTR file.corp.local.
+13  IN PTR internal.corp.local.

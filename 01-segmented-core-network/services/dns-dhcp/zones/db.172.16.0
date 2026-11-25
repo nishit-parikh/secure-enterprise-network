@@ -1,0 +1,6 @@
+; /etc/bind/zones/db.172.16.0 - Users reverse zone
+$TTL 86400
+@   IN SOA dns-dhcp.corp.local. admin.corp.local. ( 2026100502 3600 900 604800 86400 )
+    IN NS  dns-dhcp.corp.local.
+1   IN PTR r2.corp.local.
+2   IN PTR admin.corp.local.

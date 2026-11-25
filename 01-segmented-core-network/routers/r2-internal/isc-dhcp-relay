@@ -1,0 +1,5 @@
+# /etc/default/isc-dhcp-relay on r2
+# vlan20 must be listed too: the server's replies arrive on that interface.
+SERVERS="10.10.10.11"
+INTERFACES="vlan10 vlan20"
+OPTIONS=""

@@ -1,0 +1,30 @@
+# ---- Secrets: never commit ----
+# Ansible Vault and passwords
+vault.yml
+*.vault
+.vault_pass*
+# Keys, certificates, CA material, VPN profiles
+*.key
+*.pem
+*.crt
+*.csr
+*.p12
+*.ovpn
+ta.key
+pki/
+easy-rsa/
+.env
+
+# ---- Evidence that may contain real traffic ----
+*.pcap
+*.pcapng
+*.log
+eve.json
+
+# ---- Tooling ----
+*.retry
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
